@@ -61,7 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                        android:fontFamily="sans-serif-condensed"
+                        android:fontFamily="serif"
                         android:textColor="#fff"
                         android:textStyle="bold"
                         android:textSize="@dimen/detail_title_text_size"
@@ -72,7 +72,7 @@
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#8fff" />
+                        android:textColor="#f000" />
                 </LinearLayout>
 
                 <TextView
