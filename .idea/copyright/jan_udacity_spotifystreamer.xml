@@ -1,6 +1,0 @@
-<component name="CopyrightManager">
-  <copyright>
-    <option name="myName" value="jan_udacity_spotifystreamer" />
-    <option name="notice" value="Copyright (c) &amp;#36;today.year by Jan Grünewald.&#10;--------------------------------------------------------------------------------&#10;This file is part of 'Spotify Streamer'. 'Spotify Streamer' was developed as &#10;part of the Android Developer Nanodegree by Udacity. For further &#10;information see:&#10;https://www.udacity.com/course/android-developer-nanodegree--nd801&#10;--------------------------------------------------------------------------------&#10;    'Spotify Streamer' is free software: you can redistribute it and/or modify&#10;    it under the terms of the GNU General Public License as published by&#10;    the Free Software Foundation, either version 3 of the License, or&#10;    (at your option) any later version.&#10;&#10;    'Spotify Streamer' is distributed in the hope that it will be useful,&#10;    but WITHOUT ANY WARRANTY; without even the implied warranty of&#10;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10;    GNU General Public License for more details.&#10;&#10;    You should have received a copy of the GNU General Public License&#10;    along with 'Spotify Streamer'.  If not, see &lt;http://www.gnu.org/licenses/&gt;." />
-  </copyright>
-</component>
