@@ -6,7 +6,7 @@ repositories {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 16
@@ -29,6 +29,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:'.concat(androidSupportVersion)
     compile 'com.android.support:design:'.concat(androidSupportVersion)
     compile 'com.android.support:cardview-v7:'.concat(androidSupportVersion)
-    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.squareup.okhttp3:okhttp:'.concat(okhttpVersion)
     compile files('libs/volley.jar')
 }
