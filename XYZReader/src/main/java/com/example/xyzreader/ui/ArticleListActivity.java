@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -35,6 +36,7 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
 
     private RecyclerView rvArticleList;
     private CollapsingToolbarLayout ctlToolbarLayout;
+    private FloatingActionButton fabRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
 
         if (findViewById(R.id.recycler_view) instanceof RecyclerView) {
             rvArticleList = (RecyclerView) findViewById(R.id.recycler_view);
+        }
+
+        if (findViewById(R.id.fab_refresh) instanceof FloatingActionButton) {
+            fabRefresh = (FloatingActionButton) findViewById(R.id.fab_refresh);
         }
 
         getLoaderManager().initLoader(0, null, this);
@@ -62,6 +68,15 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
 
         if (ctlToolbarLayout != null) {
             ctlToolbarLayout.setTitle(getString(R.string.app_name));
+        }
+
+        if (fabRefresh != null) {
+            fabRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refresh();
+                }
+            });
         }
 
         return super.onCreateView(name, context, attrs);
