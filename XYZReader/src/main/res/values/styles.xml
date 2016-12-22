@@ -23,8 +23,7 @@
         <item name="colorAccent">@color/theme_accent</item>
     </style>
 
-    <style name="Theme.Bacon.Detail" parent="Theme.Bacon">
-    </style>
+    <style name="Theme.Bacon.Detail" parent="Theme.Bacon"></style>
 
     <style name="ArticleCard.Title" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:paddingTop">@dimen/articlecard_title_padding_vertical</item>
@@ -38,6 +37,10 @@
         <item name="android:paddingLeft">@dimen/articlecard_title_padding_horizontal</item>
         <item name="android:paddingRight">@dimen/articlecard_title_padding_horizontal</item>
         <item name="android:textColor">@android:color/secondary_text_dark</item>
+    </style>
+
+    <style name="ArticleList.Title.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textColor">@android:color/transparent</item>
     </style>
 
 </resources>

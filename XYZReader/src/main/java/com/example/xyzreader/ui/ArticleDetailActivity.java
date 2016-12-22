@@ -12,10 +12,11 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
@@ -29,14 +30,8 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
     private Cursor mCursor;
     private long mStartId;
 
-    private long mSelectedItemId;
-    private int mSelectedItemUpButtonFloor = Integer.MAX_VALUE;
-    private int mTopInset;
-
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
-    private View mUpButtonContainer;
-    private View mUpButton;
 
     private ViewPager.SimpleOnPageChangeListener pageChangeListener;
 
@@ -62,37 +57,9 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
 
-        mUpButtonContainer = findViewById(R.id.up_container);
-
-        mUpButton = findViewById(R.id.action_up);
-        mUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSupportNavigateUp();
-            }
-        });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            mUpButtonContainer.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        view.onApplyWindowInsets(windowInsets);
-                        mTopInset = windowInsets.getSystemWindowInsetTop();
-                    }
-
-                    mUpButtonContainer.setTranslationY(mTopInset);
-                    updateUpButtonPosition();
-                    return windowInsets;
-                }
-            });
-        }
-
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
-                mSelectedItemId = mStartId;
             }
         }
     }
@@ -122,6 +89,16 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
@@ -148,32 +125,36 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
         mPagerAdapter.notifyDataSetChanged();
     }
 
-    void onUpButtonFloorChanged(long itemId, ArticleDetailFragment fragment) {
-        if (itemId == mSelectedItemId) {
-            mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
-            updateUpButtonPosition();
-        }
-    }
-
-    private void updateUpButtonPosition() {
-        int upButtonNormalBottom = mTopInset + mUpButton.getHeight();
-        mUpButton.setTranslationY(Math.min(mSelectedItemUpButtonFloor - upButtonNormalBottom, 0));
-    }
-
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
         MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        private Object lastHandledObject;
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            ArticleDetailFragment fragment = (ArticleDetailFragment) object;
-            if (fragment != null) {
-                mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
-                updateUpButtonPosition();
+
+
+//             This is a bit "tricky"; the toolbar is bound to its respective fragment. In order to be able to display
+//             and use the "back"-button the toolbar of the currently active fragment has to be set as
+//             Support-ActionBar for this activity. If that's done inside {@link #setPrimaryItem(ViewGroup, int, Object)}
+//             there's an endless loop. Therefore we use a helper variable that ensures that the ActionBar is only
+//             set once per Fragment (when the current fragment in the viewpager changes).
+            if (objectHasToolbar(object)) {
+                setSupportActionBar((Toolbar) ((Fragment) object).getView().findViewById(R.id.articledetail_toolbar));
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setDisplayShowHomeEnabled(true);
+                } else {
+                    throw new RuntimeException("getSupportActionBar() should never be null after setting it.");
+                }
+                lastHandledObject = object;
             }
+
+            super.setPrimaryItem(container, position, object);
         }
+
 
         @Override
         public Fragment getItem(int position) {
@@ -185,24 +166,22 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
         public int getCount() {
             return (mCursor != null) ? mCursor.getCount() : 0;
         }
+
+        private boolean objectHasToolbar(Object object) {
+            return object != null
+                    && lastHandledObject != object
+                    && object instanceof Fragment
+                    && ((Fragment) object).getView() != null
+                    && ((Fragment) object).getView().findViewById(R.id.articledetail_toolbar) instanceof Toolbar;
+        }
     }
 
     private class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
         @Override
-        public void onPageScrollStateChanged(int state) {
-            super.onPageScrollStateChanged(state);
-            mUpButton.animate()
-                    .alpha((state == ViewPager.SCROLL_STATE_IDLE) ? 1f : 0f)
-                    .setDuration(300);
-        }
-
-        @Override
         public void onPageSelected(int position) {
             if (mCursor != null) {
                 mCursor.moveToPosition(position);
-                mSelectedItemId = mCursor.getLong(ArticleLoader.Query._ID);
             }
-            updateUpButtonPosition();
         }
     }
 }

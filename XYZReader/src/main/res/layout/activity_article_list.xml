@@ -14,14 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="116dp"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:expandedTitleTextAppearance="@style/ArticleList.Title.Expanded"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/logo"
-                android:padding="@dimen/navigation_padding_bottom"
+                android:padding="@dimen/articlelist_title_padding"
                 android:contentDescription="@string/app_name" />
 
             <android.support.v7.widget.Toolbar

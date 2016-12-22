@@ -8,5 +8,6 @@
     <string name="action_share">Share</string>
 
     <string name="up">Up</string>
+    <string name="articledetail_photo_description">The photo of the article</string>
 
 </resources>

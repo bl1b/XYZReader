@@ -11,4 +11,8 @@
 
     <dimen name="articlecard_title_padding_vertical">4dp</dimen>
     <dimen name="articlecard_title_padding_horizontal">4dp</dimen>
+    <dimen name="articledetail_photo_height">300dp</dimen>
+    <dimen name="articlelist_title_padding">8dp</dimen>
+
+    <dimen name="articledetail_margintop">0dp</dimen>
 </resources>

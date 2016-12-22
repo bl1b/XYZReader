@@ -2,15 +2,16 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 2
         versionName "1.0.1"
     }
@@ -30,5 +31,8 @@ dependencies {
     compile 'com.android.support:design:'.concat(androidSupportVersion)
     compile 'com.android.support:cardview-v7:'.concat(androidSupportVersion)
     compile 'com.squareup.okhttp3:okhttp:'.concat(okhttpVersion)
+
+
+    compile 'net.opacapp:multiline-collapsingtoolbar:'.concat(multilineToolbarVersion)
     compile files('libs/volley.jar')
 }
